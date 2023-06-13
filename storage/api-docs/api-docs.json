@@ -1,0 +1,543 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Album API",
+        "description": "Album API Crud",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/albums": {
+            "get": {
+                "tags": [
+                    "Albums"
+                ],
+                "summary": "Get a list of albums",
+                "description": "Returns a paginated list of albums for the authenticated user",
+                "operationId": "getAlbumsList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlbumResource"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Albums"
+                ],
+                "summary": "Create a new album",
+                "description": "Creates a new album for the authenticated user",
+                "operationId": "storeAlbum",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreAlbumRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlbumResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/albums/{id}": {
+            "get": {
+                "tags": [
+                    "Albums"
+                ],
+                "summary": "Get album details",
+                "description": "Returns the details of a specific album for the authenticated user",
+                "operationId": "getAlbumById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the album",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlbumResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized action"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Albums"
+                ],
+                "summary": "Update an album",
+                "description": "Updates the details of a specific album for the authenticated user",
+                "operationId": "updateAlbum",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the album",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAlbumRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlbumResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized action"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Albums"
+                ],
+                "summary": "Delete an album",
+                "description": "Deletes a specific album for the authenticated user",
+                "operationId": "deleteAlbum",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the album",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AlbumResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized action"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/images": {
+            "get": {
+                "tags": [
+                    "Images"
+                ],
+                "summary": "Get a list of image manipulations",
+                "description": "Returns a paginated list of image manipulations for the authenticated user",
+                "operationId": "getImageManipulations",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ImageManipulationResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/images/by-album/{album}": {
+            "get": {
+                "tags": [
+                    "Images"
+                ],
+                "summary": "Get images by album",
+                "description": "Returns a paginated list of images belonging to a specific album for the authenticated user",
+                "operationId": "getImagesByAlbum",
+                "parameters": [
+                    {
+                        "name": "album",
+                        "in": "path",
+                        "description": "ID of the album",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ImageManipulationResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized action"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/images/{image}": {
+            "get": {
+                "tags": [
+                    "Images"
+                ],
+                "summary": "Get image details",
+                "description": "Returns the details of a specific image for the authenticated user",
+                "operationId": "getImage",
+                "parameters": [
+                    {
+                        "name": "image",
+                        "in": "path",
+                        "description": "ID of the image",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ImageManipulationResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized action"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Images"
+                ],
+                "summary": "Delete an image manipulation",
+                "operationId": "destroyImage",
+                "parameters": [
+                    {
+                        "name": "image",
+                        "in": "path",
+                        "description": "ID of the image manipulation",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Image manipulation deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ImageManipulationResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized action"
+                    },
+                    "404": {
+                        "description": "Image manipulation not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/images/resize": {
+            "post": {
+                "tags": [
+                    "Images"
+                ],
+                "summary": "Resize an image",
+                "description": "Resizes an image and stores the manipulated image for the authenticated user",
+                "operationId": "resizeImage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResizeImageRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ImageManipulationResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized action"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ResizeImageRequest": {
+                "required": [
+                    "image",
+                    "w"
+                ],
+                "properties": {
+                    "image": {
+                        "description": "The image to resize. Accepts either a file upload or a URL.",
+                        "type": "string"
+                    },
+                    "w": {
+                        "description": "The target width of the resized image. Accepts either a number in pixels or a percentage.",
+                        "type": "string"
+                    },
+                    "h": {
+                        "description": "The target height of the resized image. Accepts either a number in pixels or a percentage.",
+                        "type": "string"
+                    },
+                    "album_id": {
+                        "description": "The ID of the album to associate the resized image with.",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreAlbumRequest": {
+                "title": "Store Album Request",
+                "description": "Store album request body parameters",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Album 1"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateAlbumRequest": {
+                "title": "Update Album Request",
+                "description": "Update album request body parameters",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Updated Album 1"
+                    }
+                },
+                "type": "object"
+            },
+            "AlbumResource": {
+                "title": "Album Resource",
+                "description": "Album resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Album 1"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/UserResource"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-06-01 10:30:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-06-02 15:45:00"
+                    }
+                },
+                "type": "object"
+            },
+            "ImageManipulationResource": {
+                "title": "ImageManipulationResource",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "original": {
+                        "type": "string",
+                        "format": "url"
+                    },
+                    "output": {
+                        "type": "string",
+                        "format": "url"
+                    },
+                    "album": {
+                        "$ref": "#/components/schemas/AlbumResource"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "title": "User Resource",
+                "description": "User resource representation",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "johndoe@example.com"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}
